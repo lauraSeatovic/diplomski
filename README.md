@@ -37,3 +37,6 @@ Detaljnije upute za build i instalaciju APK-a za svaku pojedinu tehnologiju, kao
 * Testni korisnici:
   * Trener: mail: laura.seatovic@gmail.com, pass: laura123
   * Sportaš: mail: klara.seatovic@gmail.com, pass: klara123
+
+
+Za pomoć oko postavljanja ili dobivanja pristupnih podataka za spajanje na pozadinske platforme, moguće je javiti se na e-mail adresu: laura.seatovic@gmail.com
