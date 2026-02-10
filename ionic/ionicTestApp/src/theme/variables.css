@@ -1,0 +1,7 @@
+/* For information on how to create your own theme, please refer to:
+http://ionicframework.com/docs/theming/ */
+
+ion-header ion-toolbar {
+  padding-top: 32px;
+}
+

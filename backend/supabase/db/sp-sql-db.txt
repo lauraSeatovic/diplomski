@@ -1,0 +1,109 @@
+CREATE TABLE "Teretana" (
+  "IdTeretane"     VARCHAR(50) PRIMARY KEY,
+  "NazivTeretane"  VARCHAR(100) NOT NULL,
+  "Adresa"         VARCHAR(200) NOT NULL,
+  "Mjesto"         VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE "Dvorana" (
+  "IdDvorane"    VARCHAR(50) PRIMARY KEY,
+  "NazivDvorane" VARCHAR(100) NOT NULL,
+  "IdTeretane"   VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE "VrstaTreninga" (
+  "IdVrTreninga"    VARCHAR(50) PRIMARY KEY,
+  "NazivVrTreninga" VARCHAR(100) NOT NULL,
+  "Tezina"          INTEGER NOT NULL
+);
+
+CREATE TABLE "Korisnik" (
+  "IdKorisnika"      VARCHAR(50) PRIMARY KEY,
+  "ImeKorisnika"     VARCHAR(50) NOT NULL,
+  "PrezimeKorisnika" VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE "Sportas" (
+  "IdKorisnika"   VARCHAR(50) PRIMARY KEY,
+  "DatumRodenja"  DATE NOT NULL,
+  "TipClanarine"  VARCHAR(50)
+);
+
+CREATE TABLE "Trener" (
+  "IdKorisnika"      VARCHAR(50) PRIMARY KEY,
+  "OpisTrenera"      TEXT,
+  "KontaktTrenera"   VARCHAR(100)
+);
+
+CREATE TABLE "Trening" (
+  "IdTreninga"          VARCHAR(50) PRIMARY KEY,
+  "IdDvOdr"             VARCHAR(50) NOT NULL,
+  "IdVrTreninga"        VARCHAR(50) NOT NULL,
+  "IdLaksijegTreninga"  VARCHAR(50),
+  "IdTezegTreninga"     VARCHAR(50),
+  "MaksBrojSportasa"    INTEGER NOT NULL
+);
+
+CREATE TABLE "Raspored" (
+  "IdRasporeda"      VARCHAR(50) PRIMARY KEY,
+  "IdTreninga"       VARCHAR(50) NOT NULL,
+  "PocetakVrijeme"   TIMESTAMP NOT NULL,
+  "ZavrsetakVrijeme" TIMESTAMP NOT NULL,
+  "IdTrenera"        VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE "Prijava" (
+  "IdPrijave"         VARCHAR(50) PRIMARY KEY,
+  "IdSportasa"        VARCHAR(50) NOT NULL,
+  "DolazakNaTrening"  BOOLEAN NOT NULL,
+  "OcjenaTreninga"    SMALLINT,
+  "IdRasporeda"       VARCHAR(50) NOT NULL,
+  CONSTRAINT "chk_ocjena_treninga"
+    CHECK ("OcjenaTreninga" IS NULL OR "OcjenaTreninga" BETWEEN 1 AND 5)
+);
+
+-- FOREIGN KEYS ---------------------------------------------------------------
+
+ALTER TABLE "Dvorana"
+  ADD CONSTRAINT "fk_dvorana_teretana"
+  FOREIGN KEY ("IdTeretane") REFERENCES "Teretana" ("IdTeretane");
+
+ALTER TABLE "Sportas"
+  ADD CONSTRAINT "fk_sportas_korisnik"
+  FOREIGN KEY ("IdKorisnika") REFERENCES "Korisnik" ("IdKorisnika");
+
+ALTER TABLE "Trener"
+  ADD CONSTRAINT "fk_trener_korisnik"
+  FOREIGN KEY ("IdKorisnika") REFERENCES "Korisnik" ("IdKorisnika");
+
+ALTER TABLE "Trening"
+  ADD CONSTRAINT "fk_trening_dvorana"
+  FOREIGN KEY ("IdDvOdr") REFERENCES "Dvorana" ("IdDvorane");
+
+ALTER TABLE "Trening"
+  ADD CONSTRAINT "fk_trening_vrsta"
+  FOREIGN KEY ("IdVrTreninga") REFERENCES "VrstaTreninga" ("IdVrTreninga");
+
+ALTER TABLE "Trening"
+  ADD CONSTRAINT "fk_trening_laksi"
+  FOREIGN KEY ("IdLaksijegTreninga") REFERENCES "Trening" ("IdTreninga");
+
+ALTER TABLE "Trening"
+  ADD CONSTRAINT "fk_trening_tezi"
+  FOREIGN KEY ("IdTezegTreninga") REFERENCES "Trening" ("IdTreninga");
+
+ALTER TABLE "Raspored"
+  ADD CONSTRAINT "fk_raspored_trening"
+  FOREIGN KEY ("IdTreninga") REFERENCES "Trening" ("IdTreninga");
+
+ALTER TABLE "Raspored"
+  ADD CONSTRAINT "fk_raspored_trener"
+  FOREIGN KEY ("IdTrenera") REFERENCES "Trener" ("IdKorisnika");
+
+ALTER TABLE "Prijava"
+  ADD CONSTRAINT "fk_prijava_sportas"
+  FOREIGN KEY ("IdSportasa") REFERENCES "Sportas" ("IdKorisnika");
+
+ALTER TABLE "Prijava"
+  ADD CONSTRAINT "fk_prijava_raspored"
+  FOREIGN KEY ("IdRasporeda") REFERENCES "Raspored" ("IdRasporeda");

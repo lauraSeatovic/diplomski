@@ -1,0 +1,7 @@
+{
+  "name": "ionicTestApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}

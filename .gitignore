@@ -1,0 +1,4 @@
+ionic/ionicTestApp/config.ts
+flutter/test_app/android/app/google-services.json
+rn/rnTestApp/android/app/google-services.json
+ionic/ionicTestApp/src/data/firebase/services/firebaseConfig.ts
